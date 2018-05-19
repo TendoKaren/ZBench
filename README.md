@@ -1,1 +1,1 @@
-    wget -N --no-check-certificate https://github.com/TendoKaren/ZBench/blob/master/ZBench-CN.sh && bash ZBench-CN.sh
+    wget -N --no-check-certificate https://raw.githubusercontent.com/TendoKaren/ZBench/master/ZBench-CN.sh && bash ZBench-CN.sh
