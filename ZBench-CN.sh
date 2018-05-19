@@ -161,6 +161,11 @@ speed() {
     speed_test 'http://speedtest.fra02.softlayer.com/downloads/test100.zip' 'Softlayer, Frankfurt, DE'
     speed_test 'http://speedtest.sng01.softlayer.com/downloads/test100.zip' 'Softlayer, Singapore, SG'
     speed_test 'http://speedtest.hkg02.softlayer.com/downloads/test100.zip' 'Softlayer, HongKong, CN'
+    speed_test 'http://gzspeedtest.com:8080/download?size=100000000' 'ChinaTelecom, Guangzhou, CN'
+    speed_test 'http://st1.bjtelecom.net:8080/download?size=100000000' 'ChinaTelecom, Beijing, CN'
+    speed_test 'http://www2.unicomtest.com:8080/download?size=100000000' 'ChinaUnicom, Beijing, CN'
+    speed_test 'http://speedtest1.online.sh.cn:8080/download?size=100000000' 'ChinaTelecom, Shanghai, CN'
+    speed_test 'http://speedtest1.gd.chinamobile.com:8080/download?size=100000000' 'ChinaMobile, Guangzhou, CN'
 }
 
 speed_test_cn(){
@@ -208,6 +213,7 @@ speed_cn() {
     speed_test_cn '3633' '上海电信'
     speed_test_cn '4624' '成都电信'
     speed_test_cn '4863' "西安电信"
+    speed_test_cn '17251' '广州电信'
     speed_test_cn '5083' '上海联通'
     speed_test_cn '5726' '重庆联通'
     speed_test_cn '5192' "西安移动"
@@ -364,7 +370,7 @@ NetPiSM=$( sed -n "24p" /tmp/speed_cn.txt )
 NetUPCM=$( sed -n "25p" /tmp/speed_cn.txt )
 NetDWCM=$( sed -n "26p" /tmp/speed_cn.txt )
 NetPiCM=$( sed -n "27p" /tmp/speed_cn.txt )
-wget -N --no-check-certificate https://raw.githubusercontent.com/FunctionClub/ZBench/master/Generate.py >> /dev/null 2>&1
+wget -N --no-check-certificate https://raw.githubusercontent.com/TendoKaren/ZBench/master/Generate.py >> /dev/null 2>&1
 python Generate.py && rm -rf Generate.py && cp /root/report.html /tmp/report/index.html
 TSM=$( cat /tmp/shm.txt_table )
 TST=$( cat /tmp/sht.txt_table )
@@ -372,26 +378,4 @@ TSU=$( cat /tmp/shu.txt_table )
 TGM=$( cat /tmp/gdm.txt_table )
 TGT=$( cat /tmp/gdt.txt_table )
 TGU=$( cat /tmp/gdu.txt_table )
-curl 'http://api.zbench.kirito.moe/action.php' --data "CPUmodel=$cname &CPUspeed=$freq MHz &CPUcore=$cores &HDDsize=$disk_total_size GB ($disk_used_size GB 已使用) &RAMsize=$tram MB ($uram MB 已使用)&SWAPsize=$swap MB ($uswap MB 已使用)&UPtime= $up&Arch=1&systemload=$load&OS= $opsy &Arch=$arch ($lbit 位)&Kernel=$kern &Virmethod=$virtua &IOa=$io1&IOb=$io2&IOc=$io3&NetCFspeec=$NetCFspeec&NetCFping=$NetCFping&NetLJPspeed=$NetLJPspeed&NetLJPping=$NetLJPping&NetLSGspeed=$NetLSGspeed&NetLSGping=$NetLSGping&NetLUKspeed=$NetLUKspeed&NetLUKping=$NetLUKping&NetLDEspeed=$NetLDEspeed&NetLDEping=$NetLDEping&NetLCAspeed=$NetLCAspeed&NetLCAping=$NetLCAping&NetSTXspeed=$NetSTXspeed&NetSTXping=$NetSTXping&NetSWAspeed=$NetSWAspeed&NetSWAping=$NetSWAping&NetSDEspeed=$NetSDEspeed&NetSDEping=$NetSDEping&NetSSGspeed=$NetSSGspeed&NetSSGping=$NetSSGping&NetSCNspeed=$NetSCNspeed&NetSCNping=$NetSCNping&NetUPST=$NetUPST&NetDWST=$NetDWST&NetPiST=$NetPiST&NetUPCT=$NetUPCT&NetDWCT=$NetDWCT&NetPiCT=$NetPiCT&NetUPXT=$NetUPXT&NetDWXT=$NetDWXT&NetPiXT=$NetPiXT&NetUPSU=$NetUPSU&NetDWSU=$NetDWSU&NetPiSU=$NetPiSU&NetUPCU=$NetUPCU&NetDWCU=$NetDWCU&NetPiCU=$NetPiCU&NetUPXM=$NetUPXM&NetDWXM=$NetDWXM&NetPiXM=$NetPiXM&NetUPSM=$NetUPSM&NetDWSM=$NetDWSM&NetPiSM=$NetPiSM&NetUPCM=$NetUPCM&NetDWCM=$NetDWCM&NetPiCM=$NetPiCM&TSM=$TSM&TST=$TST&TSU=$TSU&TGM=$TGM&TGT=$TGT&TGU=$TGU&AKEY=$AKEY&Provider=$Provider"
-IKEY=$(curl "http://api.zbench.kirito.moe/getkey.php?AKEY=$AKEY" 2>/dev/null)
-echo "在线查看测评报告：https://zbench.kirito.moe/record-cn.php?IKEY=$IKEY"
 echo "您的测评报告已保存在 /root/report.html"
-
-# If use simple http server
-while :; do echo
-  read -p "你想现在查看您的测评报告吗? [y/n]: " ifreport
-  if [[ ! $ifreport =~ ^[y,n]$ ]]; then
-    echo "输入错误! 请确保你输入的是 'y' 或者 'n'"
-  else
-    break
-  fi
-done
-
-if [[ $ifreport == 'y' ]];then
-    echo ""
-    myip=`curl -m 10 -s http://members.3322.org/dyndns/getip`
-    echo "访问 http://${myip}:8001/index.html 查看您的测试报告，按 Ctrl + C 退出" 
-	cd /tmp/report
-    python -m SimpleHTTPServer 8001
-    iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 8001 -j ACCEPT
-fi
