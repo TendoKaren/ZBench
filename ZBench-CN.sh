@@ -165,11 +165,6 @@ speed() {
     speed_test 'http://speedtest.fra02.softlayer.com/downloads/test100.zip' 'Softlayer, Frankfurt, DE'
     speed_test 'http://speedtest.sng01.softlayer.com/downloads/test100.zip' 'Softlayer, Singapore, SG'
     speed_test 'http://speedtest.hkg02.softlayer.com/downloads/test100.zip' 'Softlayer, HongKong, CN'
-    speed_test 'http://gzspeedtest.com:8080/download?size=100000000' 'ChinaTelecom, Guangzhou, CN'
-    speed_test 'http://st1.bjtelecom.net:8080/download?size=100000000' 'ChinaTelecom, Beijing, CN'
-    speed_test 'http://www2.unicomtest.com:8080/download?size=100000000' 'ChinaUnicom, Beijing, CN'
-    speed_test 'http://speedtest1.online.sh.cn:8080/download?size=100000000' 'ChinaTelecom, Shanghai, CN'
-    speed_test 'http://speedtest1.gd.chinamobile.com:8080/download?size=100000000' 'ChinaMobile, Guangzhou, CN'
 }
 
 speed_test_cn(){
